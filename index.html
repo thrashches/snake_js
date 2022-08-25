@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="assets/css/style.css">
+    <title>Snake game</title>
+</head>
+
+<body>
+    <header></header>
+    <main>
+        <section class="top-bar">
+            <div class="top-bar__scores">
+                <p>Score: <span class="score" id="score">0</span></p>
+            </div>
+            <div class="top-bar__scores">
+                <p>Best: <span class="score" id="best">0</span></p>
+            </div>
+        </section>
+        <section class="game-area">
+            <div class="pre-start" id="preStart">
+                <button class="pre-start__btn" id="startBtn">Start</button>
+            </div>
+            <div class="game-area__line">
+                <div class="game-area__item" data-x="1" data-y="1"></div>
+                <div class="game-area__item" data-x="1" data-y="2"></div>
+                <div class="game-area__item" data-x="1" data-y="3"></div>
+                <div class="game-area__item" data-x="1" data-y="4"></div>
+                <div class="game-area__item" data-x="1" data-y="5"></div>
+                <div class="game-area__item" data-x="1" data-y="6"></div>
+                <div class="game-area__item" data-x="1" data-y="7"></div>
+                <div class="game-area__item" data-x="1" data-y="8"></div>
+                <div class="game-area__item" data-x="1" data-y="9"></div>
+                <div class="game-area__item" data-x="1" data-y="10"></div>
+            </div>
+            <div class="game-area__line">
+                <div class="game-area__item" data-x="2" data-y="1"></div>
+                <div class="game-area__item" data-x="2" data-y="2"></div>
+                <div class="game-area__item snake__section" data-x="2" data-y="3"></div>
+                <div class="game-area__item snake__section" data-x="2" data-y="4"></div>
+                <div class="game-area__item" data-x="2" data-y="5"></div>
+                <div class="game-area__item" data-x="2" data-y="6"></div>
+                <div class="game-area__item" data-x="2" data-y="7"></div>
+                <div class="game-area__item" data-x="2" data-y="8"></div>
+                <div class="game-area__item" data-x="2" data-y="9"></div>
+                <div class="game-area__item" data-x="2" data-y="10"></div>
+            </div>
+            <div class="game-area__line">
+                <div class="game-area__item" data-x="3" data-y="1"></div>
+                <div class="game-area__item" data-x="3" data-y="2"></div>
+                <div class="game-area__item snake__section" data-x="3" data-y="3"></div>
+                <div class="game-area__item" data-x="3" data-y="4"></div>
+                <div class="game-area__item" data-x="3" data-y="5"></div>
+                <div class="game-area__item" data-x="3" data-y="6"></div>
+                <div class="game-area__item" data-x="3" data-y="7"></div>
+                <div class="game-area__item" data-x="3" data-y="8"></div>
+                <div class="game-area__item" data-x="3" data-y="9"></div>
+                <div class="game-area__item" data-x="3" data-y="10"></div>
+            </div>
+            <div class="game-area__line">
+                <div class="game-area__item" data-x="4" data-y="1"></div>
+                <div class="game-area__item" data-x="4" data-y="2"></div>
+                <div class="game-area__item" data-x="4" data-y="3"></div>
+                <div class="game-area__item" data-x="4" data-y="4"></div>
+                <div class="game-area__item" data-x="4" data-y="5"></div>
+                <div class="game-area__item" data-x="4" data-y="6"></div>
+                <div class="game-area__item" data-x="4" data-y="7"></div>
+                <div class="game-area__item" data-x="4" data-y="8"></div>
+                <div class="game-area__item" data-x="4" data-y="9"></div>
+                <div class="game-area__item" data-x="4" data-y="10"></div>
+            </div>
+            <div class="game-area__line">
+                <div class="game-area__item" data-x="5" data-y="1"></div>
+                <div class="game-area__item" data-x="5" data-y="2"></div>
+                <div class="game-area__item" data-x="5" data-y="3"></div>
+                <div class="game-area__item" data-x="5" data-y="4"></div>
+                <div class="game-area__item" data-x="5" data-y="5"></div>
+                <div class="game-area__item apple" data-x="5" data-y="6"></div>
+                <div class="game-area__item" data-x="5" data-y="7"></div>
+                <div class="game-area__item" data-x="5" data-y="8"></div>
+                <div class="game-area__item" data-x="5" data-y="9"></div>
+                <div class="game-area__item" data-x="5" data-y="10"></div>
+            </div>
+            <div class="game-area__line">
+                <div class="game-area__item" data-x="6" data-y="1"></div>
+                <div class="game-area__item" data-x="6" data-y="2"></div>
+                <div class="game-area__item" data-x="6" data-y="3"></div>
+                <div class="game-area__item" data-x="6" data-y="4"></div>
+                <div class="game-area__item" data-x="6" data-y="5"></div>
+                <div class="game-area__item" data-x="6" data-y="6"></div>
+                <div class="game-area__item" data-x="6" data-y="7"></div>
+                <div class="game-area__item" data-x="6" data-y="8"></div>
+                <div class="game-area__item" data-x="6" data-y="9"></div>
+                <div class="game-area__item" data-x="6" data-y="10"></div>
+            </div>
+            <div class="game-area__line">
+                <div class="game-area__item" data-x="7" data-y="1"></div>
+                <div class="game-area__item" data-x="7" data-y="2"></div>
+                <div class="game-area__item" data-x="7" data-y="3"></div>
+                <div class="game-area__item" data-x="7" data-y="4"></div>
+                <div class="game-area__item" data-x="7" data-y="5"></div>
+                <div class="game-area__item" data-x="7" data-y="6"></div>
+                <div class="game-area__item" data-x="7" data-y="7"></div>
+                <div class="game-area__item" data-x="7" data-y="8"></div>
+                <div class="game-area__item" data-x="7" data-y="9"></div>
+                <div class="game-area__item" data-x="7" data-y="10"></div>
+            </div>
+            <div class="game-area__line">
+                <div class="game-area__item" data-x="8" data-y="1"></div>
+                <div class="game-area__item" data-x="8" data-y="2"></div>
+                <div class="game-area__item" data-x="8" data-y="3"></div>
+                <div class="game-area__item" data-x="8" data-y="4"></div>
+                <div class="game-area__item" data-x="8" data-y="5"></div>
+                <div class="game-area__item" data-x="8" data-y="6"></div>
+                <div class="game-area__item" data-x="8" data-y="7"></div>
+                <div class="game-area__item" data-x="8" data-y="8"></div>
+                <div class="game-area__item" data-x="8" data-y="9"></div>
+                <div class="game-area__item" data-x="8" data-y="10"></div>
+            </div>
+            <div class="game-area__line">
+                <div class="game-area__item" data-x="9" data-y="1"></div>
+                <div class="game-area__item" data-x="9" data-y="2"></div>
+                <div class="game-area__item" data-x="9" data-y="3"></div>
+                <div class="game-area__item" data-x="9" data-y="4"></div>
+                <div class="game-area__item" data-x="9" data-y="5"></div>
+                <div class="game-area__item" data-x="9" data-y="6"></div>
+                <div class="game-area__item" data-x="9" data-y="7"></div>
+                <div class="game-area__item" data-x="9" data-y="8"></div>
+                <div class="game-area__item" data-x="9" data-y="9"></div>
+                <div class="game-area__item" data-x="9" data-y="10"></div>
+            </div>
+            <div class="game-area__line">
+                <div class="game-area__item" data-x="10" data-y="1"></div>
+                <div class="game-area__item" data-x="10" data-y="2"></div>
+                <div class="game-area__item" data-x="10" data-y="3"></div>
+                <div class="game-area__item" data-x="10" data-y="4"></div>
+                <div class="game-area__item" data-x="10" data-y="5"></div>
+                <div class="game-area__item" data-x="10" data-y="6"></div>
+                <div class="game-area__item" data-x="10" data-y="7"></div>
+                <div class="game-area__item" data-x="10" data-y="8"></div>
+                <div class="game-area__item" data-x="10" data-y="9"></div>
+                <div class="game-area__item" data-x="10" data-y="10"></div>
+            </div>
+        </section>
+    </main>
+    <footer></footer>
+    <script src="assets/js/game.js"></script>
+</body>
+
+</html>
