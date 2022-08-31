@@ -20,59 +20,68 @@ class Snake {
 
     getNextStep() {
         // Метод для получения следующей клетки
+        console.log(this.sections);
         const lastSection = this.sections[this.sections.length - 1];
         const prelastSection = this.sections[this.sections.length - 2];
+        console.log(lastSection, prelastSection);
         
-        let x;
-        let y;
-        if (lastSection.dataset.x === prelastSection.dataset.x && lastSection.dataset.y > prelastSection.dataset.y) {
+        var x = '';
+        var y = '';
+        
+        if (lastSection.y === prelastSection.y && lastSection.x > prelastSection.x) {
             // движение вправо
             y = lastSection.y;
-            if (lastSection.dataset.x == 10) {
+            if (lastSection.x == 10) {
                 x = '1';
             }
             else {
-                x = parseInt(x) + 1;
+                x = parseInt(lastSection.x) + 1;
             }
+            console.log('right');
             
         }
-        else if (lastSection.dataset.x === prelastSection.dataset.x && lastSection.dataset.y < prelastSection.dataset.y) {
+        else if (lastSection.y === prelastSection.y && lastSection.x < prelastSection.x) {
             // движение влево
             y = lastSection.y;
-            if (lastSection.dataset.x == 1) {
+            if (lastSection.x == 1) {
                 x = '10';
             }
             else {
-                x = parseInt(x) - 1;
+                x = parseInt(lastSection.x) - 1;
             }
+            console.log('left');
         }
-        else if (lastSection.dataset.x < prelastSection.dataset.x && lastSection.dataset.y === prelastSection.dataset.y) {
+        else if (lastSection.y < prelastSection.y && lastSection.x === prelastSection.x) {
             // движение вверх
             x = lastSection.x;
-            if (lastSection.dataset.y == 1) {
+            if (lastSection.y == 1) {
                 y = '10';
             }
             else {
-                y = parseInt(y) - 1;
+                y = parseInt(lastSection.y) - 1;
             }
+            console.log('up');
         }
-        else if (lastSection.dataset.x > prelastSection.dataset.x && lastSection.dataset.y === prelastSection.dataset.y) {
+        else if (lastSection.y > prelastSection.y && lastSection.x === prelastSection.x) {
             // движение вниз
             x = lastSection.x;
-            if (lastSection.dataset.y == 10) {
+            if (lastSection.y == 10) {
                 y = '1';
             }
             else {
-                y = parseInt(y) + 1;
+                y = parseInt(lastSection.y) + 1;
             }
+            console.log('down');
         }
-        const nextSection = document.querySelector(`[data-x="${x}"][data-y="${y}"]`);
-        console.log(nextSection);
+        const nextSection = new Section(x, y, 'snake__section');
+        return nextSection
     }
 
     step() {
-        const lastSection = this.sections[this.sections.length - 1];
-
+        const nextSection = this.getNextStep();
+        this.sections.push(nextSection);
+        this.sections.shift();
+        this.render();
     }
 
     eat() {
