@@ -2,6 +2,20 @@ startBtn.addEventListener('click', () => {
     document.getElementById('preStart').remove();
     const snake = new Snake();
     const intevalId = setInterval(() => { snake.step() }, 1000);
+    document.addEventListener('keyup', (event) => {
+        if (event.code == 'ArrowUp') {
+            snake.setCommand('up');
+        }
+        else if (event.code == 'ArrowDown') {
+            snake.setCommand('down');
+        }
+        else if (event.code == 'ArrowLeft') {
+            snake.setCommand('left');
+        }
+        else if (event.code == 'ArrowRight') {
+            snake.setCommand('right');
+        }
+    })
 })
 
 const area = document.getElementsByClassName('game-area__item');
@@ -28,7 +42,9 @@ class Snake {
     }
 
     setCommand(value) {
-        this.command = value;
+        if (value != this.command) {
+            this.command = value;
+        }
     }
 
     getNextStep() {
