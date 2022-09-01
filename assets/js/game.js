@@ -1,8 +1,24 @@
 startBtn.addEventListener('click', () => {
+    // Нажатие кнопи старт
     document.getElementById('preStart').remove();
+    const apple = new Apple();
+
+    apple.render();
+
     const snake = new Snake();
-    const intevalId = setInterval(() => { snake.step() }, 1000);
+
+
+    const intevalId = setInterval(() => { 
+        // Запуск змейки
+        snake.step();
+        if (apple.x == snake.head().x && apple.y == snake.head().y) {
+            snake.eat();
+            apple.constructor();
+        }
+    }, 1000);
     document.addEventListener('keyup', (event) => {
+        // Нажатие стрелок
+        event.preventDefault();
         if (event.code == 'ArrowUp') {
             snake.setCommand('up');
         }
@@ -16,6 +32,7 @@ startBtn.addEventListener('click', () => {
             snake.setCommand('right');
         }
     })
+
 })
 
 const area = document.getElementsByClassName('game-area__item');
@@ -37,12 +54,18 @@ class Snake {
         // const int = setInterval(this.step(), 500);
     }
 
-    stop() {
-
+    head() {
+        // Возвращает координаты головы
+        const headSection = this.sections[this.sections.length - 1];
+        return {x: headSection.x, y: headSection.y}
     }
 
     setCommand(value) {
-        if (value != this.command) {
+        // Проверяет и устанавливает направление движения
+        if (!((value == 'up' && this.command == 'down') 
+        || (value == 'down' && this.command == 'up') 
+        || (value == 'left' && this.command == 'right') 
+        || (value == 'right' && this.command == 'left'))) {
             this.command = value;
         }
     }
@@ -57,7 +80,7 @@ class Snake {
         var x = '';
         var y = '';
 
-        
+
         if (this.command == 'up') {
             x = lastSection.x;
             if (lastSection.y == 1) {
@@ -118,7 +141,9 @@ class Snake {
 
     eat() {
         // Действие при встрече с яблоком
-
+        const nextSection = this.getNextStep();
+        this.sections.push(nextSection);
+        this.render();
     }
 
     render() {
@@ -169,6 +194,3 @@ function getRandomInt(min, max) {
 }
 
 
-const apple = new Apple();
-
-apple.render();
