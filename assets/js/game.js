@@ -1,5 +1,7 @@
 startBtn.addEventListener('click', () => {
     document.getElementById('preStart').remove();
+    const snake = new Snake();
+    const intevalId = setInterval(() => { snake.step() }, 1000);
 })
 
 const area = document.getElementsByClassName('game-area__item');
@@ -8,14 +10,25 @@ class Snake {
     // Класс змейки
     sections = [] // Секции из которых состоит змейка(должны быть объектами Section)
     nextStep = {} // Координаты следующей клетки
+    command = 'down'
 
-    constructor () {
+    constructor() {
         // this.sections.push()
         for (let i = 5; i <= 7; i++) {
             const section = new Section(5, i, 'snake__section');
             this.sections.push(section);
         }
         this.render();
+
+        // const int = setInterval(this.step(), 500);
+    }
+
+    stop() {
+
+    }
+
+    setCommand(value) {
+        this.command = value;
     }
 
     getNextStep() {
@@ -24,46 +37,22 @@ class Snake {
         const lastSection = this.sections[this.sections.length - 1];
         const prelastSection = this.sections[this.sections.length - 2];
         console.log(lastSection, prelastSection);
-        
+
         var x = '';
         var y = '';
+
         
-        if (lastSection.y === prelastSection.y && lastSection.x > prelastSection.x) {
-            // движение вправо
-            y = lastSection.y;
-            if (lastSection.x == 10) {
-                x = '1';
-            }
-            else {
-                x = parseInt(lastSection.x) + 1;
-            }
-            console.log('right');
-            
-        }
-        else if (lastSection.y === prelastSection.y && lastSection.x < prelastSection.x) {
-            // движение влево
-            y = lastSection.y;
-            if (lastSection.x == 1) {
-                x = '10';
-            }
-            else {
-                x = parseInt(lastSection.x) - 1;
-            }
-            console.log('left');
-        }
-        else if (lastSection.y < prelastSection.y && lastSection.x === prelastSection.x) {
-            // движение вверх
+        if (this.command == 'up') {
             x = lastSection.x;
             if (lastSection.y == 1) {
-                y = '10';
+                y = '10'
             }
             else {
                 y = parseInt(lastSection.y) - 1;
             }
             console.log('up');
         }
-        else if (lastSection.y > prelastSection.y && lastSection.x === prelastSection.x) {
-            // движение вниз
+        else if (this.command == 'down') {
             x = lastSection.x;
             if (lastSection.y == 10) {
                 y = '1';
@@ -73,6 +62,27 @@ class Snake {
             }
             console.log('down');
         }
+        else if (this.command == 'left') {
+            y = lastSection.y;
+            if (lastSection.x == 1) {
+                x = '10';
+            }
+            else {
+                x = parseInt(lastSection.x) - 1;
+            }
+            console.log('left');
+        }
+        else if (this.command == 'right') {
+            y = lastSection.y;
+            if (lastSection.x == 10) {
+                x = '1'
+            }
+            else {
+                x = parseInt(lastSection.x) + 1;
+            }
+            console.log('right');
+        }
+
         const nextSection = new Section(x, y, 'snake__section');
         return nextSection
     }
@@ -84,6 +94,12 @@ class Snake {
         this.render();
     }
 
+
+
+    isAlive() {
+
+    }
+
     eat() {
         // Действие при встрече с яблоком
 
@@ -93,7 +109,7 @@ class Snake {
         // Обновление изображения змейки согласно новым данным
         const oldSections = document.querySelectorAll('.snake__section');
         for (let element of oldSections) {
-            
+
             element.classList.remove('snake__section');
         }
         console.log(oldSections);
@@ -109,7 +125,7 @@ class Section {
     y = ""
     cssClassName = ""
 
-    constructor (x, y, cssClassName) {
+    constructor(x, y, cssClassName) {
         this.x = x;
         this.y = y;
         this.cssClassName = cssClassName;
@@ -121,7 +137,7 @@ class Section {
     }
 }
 
-class Apple extends Section{
+class Apple extends Section {
     constructor() {
         const x = getRandomInt(1, 11);
         const y = getRandomInt(1, 11);
@@ -134,7 +150,7 @@ function getRandomInt(min, max) {
     min = Math.ceil(min);
     max = Math.floor(max);
     return Math.floor(Math.random() * (max - min)) + min; //Максимум не включается, минимум включается
-  }
+}
 
 
 const apple = new Apple();
