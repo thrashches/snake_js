@@ -15,6 +15,9 @@ startBtn.addEventListener('click', () => {
             snake.eat();
             apple.reinit();
         }
+        if (!snake.sections.length) {
+            clearInterval(intevalId);
+        }
     }, 200);
     document.addEventListener('keyup', (event) => {
         // Нажатие стрелок
@@ -145,11 +148,11 @@ class Snake {
 
     checkTail(x, y) {
         // Проверка что мы не уперлись в хвост
-        for (let i = 0; i <= this.sections.length; i++) {
-            console.log(this.sections[i]);
+        for (let section of this.sections) {
+            console.log(section);
             console.log(x);
             console.log(y);
-            if (this.sections[i].x == x && this.sections[i].y == y) {
+            if (section.x == x && section.y == y) {
                 return true;
             }
             else {
@@ -159,13 +162,14 @@ class Snake {
     }
 
     die() {
+        // Действие когда задели хвост
         console.log('die');
         const snakeSections = document.querySelectorAll('.snake__section');
         for (let element of snakeSections) {
-
+            // Удаляем все css классы
             element.classList.remove('snake__section');
         }
-        this.sections = [];
+        this.sections = []; // Очищаем секции змейки
         return this.score
     }
 
@@ -181,10 +185,8 @@ class Snake {
         // Обновление изображения змейки согласно новым данным
         const oldSections = document.querySelectorAll('.snake__section');
         for (let element of oldSections) {
-
             element.classList.remove('snake__section');
         }
-        console.log(oldSections);
         for (let i = 0; i < this.sections.length; i++) {
             this.sections[i].render();
         }
@@ -193,6 +195,7 @@ class Snake {
 
 
 class Section {
+    // Базовый класс клетки(клетка поля, змейки или яблока)
     x = ""
     y = ""
     cssClassName = ""
