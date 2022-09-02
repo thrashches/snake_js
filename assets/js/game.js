@@ -13,7 +13,7 @@ startBtn.addEventListener('click', () => {
         snake.step();
         if (apple.x == snake.head().x && apple.y == snake.head().y) {
             snake.eat();
-            apple.constructor();
+            apple.reinit();
         }
     }, 1000);
     document.addEventListener('keyup', (event) => {
@@ -184,6 +184,13 @@ class Apple extends Section {
         const y = getRandomInt(1, 11);
         const cssClassName = "apple";
         super(x, y, cssClassName);
+    }
+    reinit() {
+        const element = document.querySelector('.apple');
+        element.classList.remove('apple');
+        this.x = getRandomInt(1, 11);
+        this.y = getRandomInt(1, 11);
+        this.render();
     }
 }
 
