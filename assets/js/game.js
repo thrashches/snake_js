@@ -1,3 +1,13 @@
+const score = document.getElementById('score');
+const best = document.getElementById('best');
+if (window.localStorage.getItem('best')) {
+    best.innerHTML = window.localStorage.getItem('best');
+}
+else {
+    best.innerHTML = 0;
+}
+
+
 startBtn.addEventListener('click', () => {
     // Нажатие кнопи старт
     document.getElementById('preStart').remove();
@@ -9,15 +19,28 @@ startBtn.addEventListener('click', () => {
 
 
     const intevalId = setInterval(() => {
+
         // Запуск змейки
+        if (!snake.sections.length) {
+            clearInterval(intevalId);
+            let bestScore = 0;
+            if (window.localStorage.getItem('best')) {
+                bestScore = window.localStorage.getItem('best')
+            }
+            else {
+                bestScore = snake.score;
+            }
+            snake.score = 3;
+            best.innerHTML = bestScore;
+            window.localStorage.setItem('best', bestScore);
+        }
         snake.step();
         if (apple.x == snake.head().x && apple.y == snake.head().y) {
             snake.eat();
             apple.reinit();
+            score.innerHTML = snake.score;
         }
-        if (!snake.sections.length) {
-            clearInterval(intevalId);
-        }
+        
     }, 200);
     document.addEventListener('keyup', (event) => {
         // Нажатие стрелок
@@ -34,6 +57,9 @@ startBtn.addEventListener('click', () => {
         else if (event.code == 'ArrowRight') {
             snake.setCommand('right');
         }
+        else if (event.code == 'Escape') {
+            snake.die();
+        }
     })
 
 })
@@ -44,7 +70,7 @@ class Snake {
     // Класс змейки
     sections = [] // Секции из которых состоит змейка(должны быть объектами Section)
     nextStep = {} // Координаты следующей клетки
-    command = 'down'
+    command = 'down' // Последняя переданная команда
     score = 3
 
     constructor() {
@@ -88,7 +114,7 @@ class Snake {
         if (this.command == 'up') {
             x = lastSection.x;
             if (lastSection.y == 1) {
-                y = '10'
+                y = 10
             }
             else {
                 y = parseInt(lastSection.y) - 1;
@@ -98,7 +124,7 @@ class Snake {
         else if (this.command == 'down') {
             x = lastSection.x;
             if (lastSection.y == 10) {
-                y = '1';
+                y = 1;
             }
             else {
                 y = parseInt(lastSection.y) + 1;
@@ -108,7 +134,7 @@ class Snake {
         else if (this.command == 'left') {
             y = lastSection.y;
             if (lastSection.x == 1) {
-                x = '10';
+                x = 10;
             }
             else {
                 x = parseInt(lastSection.x) - 1;
@@ -118,7 +144,7 @@ class Snake {
         else if (this.command == 'right') {
             y = lastSection.y;
             if (lastSection.x == 10) {
-                x = '1'
+                x = 1
             }
             else {
                 x = parseInt(lastSection.x) + 1;
@@ -134,7 +160,7 @@ class Snake {
         // Сделать шаг или умереть
         if (this.sections.length) {
             const nextSection = this.getNextStep();
-            if (this.checkTail(nextSection.x, nextSection.y)) {
+            if (this.checkTail()) {
                 this.die();
             }
             else {
@@ -146,13 +172,12 @@ class Snake {
 
     }
 
-    checkTail(x, y) {
+    checkTail() {
         // Проверка что мы не уперлись в хвост
         for (let section of this.sections) {
             console.log(section);
-            console.log(x);
-            console.log(y);
-            if (section.x == x && section.y == y) {
+            console.log(section.x, this.head().x, section.y, this.head().y);
+            if (section.x == this.head().x && section.y == this.head().y) {
                 return true;
             }
             else {
