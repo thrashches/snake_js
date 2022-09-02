@@ -195,6 +195,16 @@ class Snake {
             element.classList.remove('snake__section');
         }
         this.sections = []; // Очищаем секции змейки
+        const gameOverPlate = document.createElement('div');
+        gameOverPlate.classList.add('pre-start');
+        const gameOver = document.createElement('h1');
+        gameOver.innerHTML = 'GAME OVER';
+        gameOver.classList.add('game-over');
+        
+        gameOverPlate.appendChild(gameOver);
+        const gameArea = document.getElementById('gameArea');
+        gameArea.appendChild(gameOverPlate);
+
         return this.score
     }
 

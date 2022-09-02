@@ -46,6 +46,11 @@ body {
     background-color: #1e90ff !important;
 }
 
+.game-over {
+    font-size: 1.5em;
+    color: white;
+}
+
 @keyframes apple-pulsation {
     from {
         width: 40px;
