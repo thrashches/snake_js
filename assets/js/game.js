@@ -8,14 +8,14 @@ startBtn.addEventListener('click', () => {
     const snake = new Snake();
 
 
-    const intevalId = setInterval(() => { 
+    const intevalId = setInterval(() => {
         // Запуск змейки
         snake.step();
         if (apple.x == snake.head().x && apple.y == snake.head().y) {
             snake.eat();
             apple.reinit();
         }
-    }, 1000);
+    }, 200);
     document.addEventListener('keyup', (event) => {
         // Нажатие стрелок
         event.preventDefault();
@@ -42,6 +42,7 @@ class Snake {
     sections = [] // Секции из которых состоит змейка(должны быть объектами Section)
     nextStep = {} // Координаты следующей клетки
     command = 'down'
+    score = 3
 
     constructor() {
         // this.sections.push()
@@ -57,15 +58,15 @@ class Snake {
     head() {
         // Возвращает координаты головы
         const headSection = this.sections[this.sections.length - 1];
-        return {x: headSection.x, y: headSection.y}
+        return { x: headSection.x, y: headSection.y }
     }
 
     setCommand(value) {
         // Проверяет и устанавливает направление движения
-        if (!((value == 'up' && this.command == 'down') 
-        || (value == 'down' && this.command == 'up') 
-        || (value == 'left' && this.command == 'right') 
-        || (value == 'right' && this.command == 'left'))) {
+        if (!((value == 'up' && this.command == 'down')
+            || (value == 'down' && this.command == 'up')
+            || (value == 'left' && this.command == 'right')
+            || (value == 'right' && this.command == 'left'))) {
             this.command = value;
         }
     }
@@ -80,7 +81,7 @@ class Snake {
         var x = '';
         var y = '';
 
-
+        // Проверка последней команды от пользователя
         if (this.command == 'up') {
             x = lastSection.x;
             if (lastSection.y == 1) {
@@ -127,16 +128,45 @@ class Snake {
     }
 
     step() {
-        const nextSection = this.getNextStep();
-        this.sections.push(nextSection);
-        this.sections.shift();
-        this.render();
+        // Сделать шаг или умереть
+        if (this.sections.length) {
+            const nextSection = this.getNextStep();
+            if (this.checkTail(nextSection.x, nextSection.y)) {
+                this.die();
+            }
+            else {
+                this.sections.push(nextSection);
+                this.sections.shift();
+                this.render();
+            }
+        }
+
     }
 
+    checkTail(x, y) {
+        // Проверка что мы не уперлись в хвост
+        for (let i = 0; i <= this.sections.length; i++) {
+            console.log(this.sections[i]);
+            console.log(x);
+            console.log(y);
+            if (this.sections[i].x == x && this.sections[i].y == y) {
+                return true;
+            }
+            else {
+                return false;
+            }
+        }
+    }
 
+    die() {
+        console.log('die');
+        const snakeSections = document.querySelectorAll('.snake__section');
+        for (let element of snakeSections) {
 
-    isAlive() {
-
+            element.classList.remove('snake__section');
+        }
+        this.sections = [];
+        return this.score
     }
 
     eat() {
@@ -144,6 +174,7 @@ class Snake {
         const nextSection = this.getNextStep();
         this.sections.push(nextSection);
         this.render();
+        this.score += 1;
     }
 
     render() {
