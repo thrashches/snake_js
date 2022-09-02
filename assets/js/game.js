@@ -24,7 +24,7 @@ startBtn.addEventListener('click', () => {
         if (!snake.sections.length) {
             clearInterval(intevalId);
             let bestScore = 0;
-            if (window.localStorage.getItem('best')) {
+            if (window.localStorage.getItem('best') > snake.score) {
                 bestScore = window.localStorage.getItem('best')
             }
             else {
@@ -105,11 +105,9 @@ class Snake {
         // Метод для получения следующей клетки
         console.log(this.sections);
         const lastSection = this.sections[this.sections.length - 1];
-        const prelastSection = this.sections[this.sections.length - 2];
-        console.log(lastSection, prelastSection);
-
-        var x = '';
-        var y = '';
+        
+        let x = '';
+        let y = '';
 
         // Проверка последней команды от пользователя
         if (this.command == 'up') {
@@ -161,7 +159,7 @@ class Snake {
         // Сделать шаг или умереть
         if (this.sections.length) {
             const nextSection = this.getNextStep();
-            if (this.checkTail()) {
+            if (this.checkTail(nextSection)) {
                 this.die();
             }
             else {
@@ -173,18 +171,16 @@ class Snake {
 
     }
 
-    checkTail() {
+    checkTail(nextSection) {
         // Проверка что мы не уперлись в хвост
         for (let section of this.sections) {
-            console.log(section);
-            console.log(section.x, this.head().x, section.y, this.head().y);
-            if (section.x == this.head().x && section.y == this.head().y) {
+            
+            console.log(section.x, nextSection.x, section.y, nextSection.y);
+            if (section.x == nextSection.x && section.y == nextSection.y) {
                 return true;
             }
-            else {
-                return false;
-            }
         }
+        return false;
     }
 
     die() {
