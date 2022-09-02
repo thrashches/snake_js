@@ -58,6 +58,7 @@ startBtn.addEventListener('click', () => {
             snake.setCommand('right');
         }
         else if (event.code == 'Escape') {
+            // game over для отладки
             snake.die();
         }
     })
@@ -195,6 +196,8 @@ class Snake {
             element.classList.remove('snake__section');
         }
         this.sections = []; // Очищаем секции змейки
+
+        // Добавляем game over
         const gameOverPlate = document.createElement('div');
         gameOverPlate.classList.add('pre-start');
         const gameOver = document.createElement('h1');
